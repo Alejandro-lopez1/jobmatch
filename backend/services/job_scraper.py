@@ -53,7 +53,7 @@ class JobSearchService:
                         description=row.get("description", "")[:2000] if row.get("description") else "",
                         salary=salary,
                         is_remote="remote" in str(row.get("location", "")).lower(),
-                        job_type=row.get("job_type", "fulltime"),
+                        job_type=row.get("job_type") or "fulltime",
                     )
                 )
             return jobs

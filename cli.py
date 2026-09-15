@@ -1,5 +1,10 @@
 import json
+import sys
+import io
 from pathlib import Path
+
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
 
 import typer
 
@@ -117,7 +122,8 @@ def cv_upload(file: str = typer.Argument(..., help="Ruta al archivo CV (PDF/DOCX
 
     DATA_DIR.mkdir(exist_ok=True)
     out_path = DATA_DIR / "current_cv.json"
-    out_path.write_text(cv.json(indent=2, ensure_ascii=False), encoding="utf-8")
+    import json
+    out_path.write_text(json.dumps(cv.model_dump(), indent=2, ensure_ascii=False, default=str), encoding="utf-8")
     typer.echo(f"\n💾 Guardado en: {out_path}")
 
 

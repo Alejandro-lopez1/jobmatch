@@ -1,0 +1,32 @@
+Juan Perez
+juan.perez@email.com
++34 612 345 678
+Madrid, España
+
+RESUMEN
+Desarrollador Python con 5 años de experiencia en desarrollo backend, cloud computing y bases de datos.
+
+EXPERIENCIA LABORAL
+
+Software Developer | Tech Corp | 2021-2024
+- Desarrollo de APIs REST con Python y FastAPI
+- Implementación de microservicios en AWS (EC2, S3, Lambda)
+- Gestión de bases de datos PostgreSQL y Redis
+- Despliegue continuo con Docker y GitHub Actions
+
+Junior Developer | Startup XYZ | 2019-2021
+- Desarrollo web fullstack con Django y JavaScript
+- Mantenimiento de bases de datos MySQL
+- Implementación de tests unitarios con pytest
+
+EDUCACIÓN
+
+Grado en Ingeniería Informática
+Universidad Politécnica de Madrid | 2015-2019
+
+HABILIDADES
+Python, JavaScript, SQL, AWS, Docker, Kubernetes, Git, Linux, Django, FastAPI, PostgreSQL, Redis, MongoDB, HTML, CSS, React, Scrum, Agile
+
+IDIOMAS
+Español (nativo)
+Inglés (B2)
