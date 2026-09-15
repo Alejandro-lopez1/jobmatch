@@ -295,10 +295,10 @@
             const hybrid = document.getElementById('filter-hybrid').checked;
             const onsite = document.getElementById('filter-onsite').checked;
 
-            const jobType = [];
-            if (remote) jobType.push('remote');
-            if (hybrid) jobType.push('hybrid');
-            if (onsite) jobType.push('onsite');
+            let jobType = null;
+            if (remote) jobType = 'remoto';
+            else if (hybrid) jobType = 'hibrido';
+            else if (onsite) jobType = 'presencial';
 
             showLoading('Buscando empleos...');
             document.getElementById('search-status').textContent = '';
@@ -306,7 +306,7 @@
 
             try {
                 const body = { query, location, results_wanted: 20 };
-                if (jobType.length) body.job_type = jobType[0];
+                if (jobType) body.job_type = jobType;
 
                 const res = await fetch(`${API}/jobs/search`, {
                     method: 'POST',

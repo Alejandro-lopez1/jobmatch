@@ -1,250 +1,10 @@
 [
   {
-    "match_id": "220399c9-6028-4f13-a0c4-8785565ef72a",
+    "match_id": "a3187cb9-d018-4b38-aaf4-b7a641b78021",
     "job": {
-      "job_id": "67840f6a-3b0c-4552-a22f-9d06ebc18c73",
+      "job_id": "7c016941-f7ed-443d-a90a-14ff4da3d027",
       "source": "linkedin",
-      "scraped_at": "2026-09-15 03:18:33.123779+00:00",
-      "title": "Senior Python Developer",
-      "company": "GFT Technologies España",
-      "location": "Madrid, Community of Madrid, Spain",
-      "url": "https://www.linkedin.com/jobs/view/4465623807",
-      "description": "",
-      "salary": null,
-      "requirements": {
-        "skills": [],
-        "experience_years": 0,
-        "education": null
-      },
-      "posted_date": null,
-      "is_remote": false,
-      "job_type": "fulltime"
-    },
-    "scores": {
-      "skills": 1.0,
-      "experience": 1.0,
-      "education": 1.0,
-      "semantic": 0.0,
-      "total": 0.8
-    },
-    "classification": "bueno",
-    "matched_skills": [
-      "Java",
-      "GitHub Actions",
-      "Go",
-      "Redis",
-      "Agile",
-      "JavaScript",
-      "SQL",
-      "Docker",
-      "HTML",
-      "MongoDB",
-      "Django",
-      "GitHub",
-      "CSS",
-      "FastAPI",
-      "Python",
-      "PostgreSQL",
-      "AWS",
-      "Git",
-      "React",
-      "R",
-      "MySQL",
-      "Kubernetes",
-      "Linux",
-      "Scrum"
-    ],
-    "missing_skills": [],
-    "recommendations": [
-      "Excelente compatibilidad con la oferta"
-    ]
-  },
-  {
-    "match_id": "eb28d6c2-4235-4343-9ecf-e366cee1fd2c",
-    "job": {
-      "job_id": "4878f4cd-1c60-4d06-9682-ff7621eba606",
-      "source": "linkedin",
-      "scraped_at": "2026-09-15 03:18:33.124002+00:00",
-      "title": "Python Developer (Híbrido - Madrid)",
-      "company": "Hays",
-      "location": "Madrid, Community of Madrid, Spain",
-      "url": "https://www.linkedin.com/jobs/view/4463481841",
-      "description": "",
-      "salary": null,
-      "requirements": {
-        "skills": [],
-        "experience_years": 0,
-        "education": null
-      },
-      "posted_date": null,
-      "is_remote": false,
-      "job_type": "fulltime"
-    },
-    "scores": {
-      "skills": 1.0,
-      "experience": 1.0,
-      "education": 1.0,
-      "semantic": 0.0,
-      "total": 0.8
-    },
-    "classification": "bueno",
-    "matched_skills": [
-      "Java",
-      "GitHub Actions",
-      "Go",
-      "Redis",
-      "Agile",
-      "JavaScript",
-      "SQL",
-      "Docker",
-      "HTML",
-      "MongoDB",
-      "Django",
-      "GitHub",
-      "CSS",
-      "FastAPI",
-      "Python",
-      "PostgreSQL",
-      "AWS",
-      "Git",
-      "React",
-      "R",
-      "MySQL",
-      "Kubernetes",
-      "Linux",
-      "Scrum"
-    ],
-    "missing_skills": [],
-    "recommendations": [
-      "Excelente compatibilidad con la oferta"
-    ]
-  },
-  {
-    "match_id": "eb5eaecf-cad8-458a-8b2d-fb8a64352c32",
-    "job": {
-      "job_id": "0d448661-fc88-407e-873b-f2eb066c03a7",
-      "source": "linkedin",
-      "scraped_at": "2026-09-15 03:18:33.124182+00:00",
-      "title": "Python Developer",
-      "company": "GFT Technologies España",
-      "location": "Madrid, Community of Madrid, Spain",
-      "url": "https://www.linkedin.com/jobs/view/4459671932",
-      "description": "",
-      "salary": null,
-      "requirements": {
-        "skills": [],
-        "experience_years": 0,
-        "education": null
-      },
-      "posted_date": null,
-      "is_remote": false,
-      "job_type": "fulltime"
-    },
-    "scores": {
-      "skills": 1.0,
-      "experience": 1.0,
-      "education": 1.0,
-      "semantic": 0.0,
-      "total": 0.8
-    },
-    "classification": "bueno",
-    "matched_skills": [
-      "Java",
-      "GitHub Actions",
-      "Go",
-      "Redis",
-      "Agile",
-      "JavaScript",
-      "SQL",
-      "Docker",
-      "HTML",
-      "MongoDB",
-      "Django",
-      "GitHub",
-      "CSS",
-      "FastAPI",
-      "Python",
-      "PostgreSQL",
-      "AWS",
-      "Git",
-      "React",
-      "R",
-      "MySQL",
-      "Kubernetes",
-      "Linux",
-      "Scrum"
-    ],
-    "missing_skills": [],
-    "recommendations": [
-      "Excelente compatibilidad con la oferta"
-    ]
-  },
-  {
-    "match_id": "6f04b802-96a1-4ee1-953a-85d4f910e244",
-    "job": {
-      "job_id": "2fe2ee0c-d9ca-4bfb-8213-c546d311aa09",
-      "source": "linkedin",
-      "scraped_at": "2026-09-15 03:18:33.124359+00:00",
-      "title": "DESARROLLADOR PYTHON DJANGO SENIOR",
-      "company": "knowmad mood",
-      "location": "Las Rozas de Madrid, Community of Madrid, Spain",
-      "url": "https://www.linkedin.com/jobs/view/4438361063",
-      "description": "",
-      "salary": null,
-      "requirements": {
-        "skills": [],
-        "experience_years": 0,
-        "education": null
-      },
-      "posted_date": null,
-      "is_remote": false,
-      "job_type": "fulltime"
-    },
-    "scores": {
-      "skills": 1.0,
-      "experience": 1.0,
-      "education": 1.0,
-      "semantic": 0.0,
-      "total": 0.8
-    },
-    "classification": "bueno",
-    "matched_skills": [
-      "Java",
-      "GitHub Actions",
-      "Go",
-      "Redis",
-      "Agile",
-      "JavaScript",
-      "SQL",
-      "Docker",
-      "HTML",
-      "MongoDB",
-      "Django",
-      "GitHub",
-      "CSS",
-      "FastAPI",
-      "Python",
-      "PostgreSQL",
-      "AWS",
-      "Git",
-      "React",
-      "R",
-      "MySQL",
-      "Kubernetes",
-      "Linux",
-      "Scrum"
-    ],
-    "missing_skills": [],
-    "recommendations": [
-      "Excelente compatibilidad con la oferta"
-    ]
-  },
-  {
-    "match_id": "fb9dd6c4-18d5-4064-bc5c-fc66318b7e1b",
-    "job": {
-      "job_id": "1b30ecba-56b8-415a-adb8-d98a0c9eb58e",
-      "source": "linkedin",
-      "scraped_at": "2026-09-15 03:18:33.124530+00:00",
+      "scraped_at": "2026-09-15 04:52:35.802672+00:00",
       "title": "Senior Python Developer | Madrid",
       "company": "UST España & Latam",
       "location": "Madrid, Community of Madrid, Spain",
@@ -253,7 +13,247 @@
       "salary": null,
       "requirements": {
         "skills": [],
-        "experience_years": 0,
+        "experience_years": 0.0,
+        "education": null
+      },
+      "posted_date": null,
+      "is_remote": false,
+      "job_type": "fulltime"
+    },
+    "scores": {
+      "skills": 1.0,
+      "experience": 1.0,
+      "education": 1.0,
+      "semantic": 0.0,
+      "total": 0.8
+    },
+    "classification": "bueno",
+    "matched_skills": [
+      "Java",
+      "GitHub Actions",
+      "Go",
+      "Redis",
+      "Agile",
+      "JavaScript",
+      "SQL",
+      "Docker",
+      "HTML",
+      "MongoDB",
+      "Django",
+      "GitHub",
+      "CSS",
+      "FastAPI",
+      "Python",
+      "PostgreSQL",
+      "AWS",
+      "Git",
+      "React",
+      "R",
+      "MySQL",
+      "Kubernetes",
+      "Linux",
+      "Scrum"
+    ],
+    "missing_skills": [],
+    "recommendations": [
+      "Excelente compatibilidad con la oferta"
+    ]
+  },
+  {
+    "match_id": "ffc699ca-7133-4f6c-8d89-44d2c6a7faff",
+    "job": {
+      "job_id": "c1ca1312-153e-44f9-b8d2-471cc2110d7f",
+      "source": "linkedin",
+      "scraped_at": "2026-09-15 04:52:35.802447+00:00",
+      "title": "DESARROLLADOR PYTHON DJANGO SENIOR",
+      "company": "knowmad mood",
+      "location": "Las Rozas de Madrid, Community of Madrid, Spain",
+      "url": "https://www.linkedin.com/jobs/view/4438361063",
+      "description": "",
+      "salary": null,
+      "requirements": {
+        "skills": [],
+        "experience_years": 0.0,
+        "education": null
+      },
+      "posted_date": null,
+      "is_remote": false,
+      "job_type": "fulltime"
+    },
+    "scores": {
+      "skills": 1.0,
+      "experience": 1.0,
+      "education": 1.0,
+      "semantic": 0.0,
+      "total": 0.8
+    },
+    "classification": "bueno",
+    "matched_skills": [
+      "Java",
+      "GitHub Actions",
+      "Go",
+      "Redis",
+      "Agile",
+      "JavaScript",
+      "SQL",
+      "Docker",
+      "HTML",
+      "MongoDB",
+      "Django",
+      "GitHub",
+      "CSS",
+      "FastAPI",
+      "Python",
+      "PostgreSQL",
+      "AWS",
+      "Git",
+      "React",
+      "R",
+      "MySQL",
+      "Kubernetes",
+      "Linux",
+      "Scrum"
+    ],
+    "missing_skills": [],
+    "recommendations": [
+      "Excelente compatibilidad con la oferta"
+    ]
+  },
+  {
+    "match_id": "87a7688d-daf9-4463-b044-e022d016c19a",
+    "job": {
+      "job_id": "f0370c80-8bb6-4338-b5f8-3f40fc002717",
+      "source": "linkedin",
+      "scraped_at": "2026-09-15 04:52:35.802260+00:00",
+      "title": "Python Developer",
+      "company": "GFT Technologies España",
+      "location": "Madrid, Community of Madrid, Spain",
+      "url": "https://www.linkedin.com/jobs/view/4459671932",
+      "description": "",
+      "salary": null,
+      "requirements": {
+        "skills": [],
+        "experience_years": 0.0,
+        "education": null
+      },
+      "posted_date": null,
+      "is_remote": false,
+      "job_type": "fulltime"
+    },
+    "scores": {
+      "skills": 1.0,
+      "experience": 1.0,
+      "education": 1.0,
+      "semantic": 0.0,
+      "total": 0.8
+    },
+    "classification": "bueno",
+    "matched_skills": [
+      "Java",
+      "GitHub Actions",
+      "Go",
+      "Redis",
+      "Agile",
+      "JavaScript",
+      "SQL",
+      "Docker",
+      "HTML",
+      "MongoDB",
+      "Django",
+      "GitHub",
+      "CSS",
+      "FastAPI",
+      "Python",
+      "PostgreSQL",
+      "AWS",
+      "Git",
+      "React",
+      "R",
+      "MySQL",
+      "Kubernetes",
+      "Linux",
+      "Scrum"
+    ],
+    "missing_skills": [],
+    "recommendations": [
+      "Excelente compatibilidad con la oferta"
+    ]
+  },
+  {
+    "match_id": "e14aaa1f-e45d-4133-a313-e1d0e1acca23",
+    "job": {
+      "job_id": "f23e8c44-67e5-4c55-947d-c08f5b86816a",
+      "source": "linkedin",
+      "scraped_at": "2026-09-15 04:52:35.802081+00:00",
+      "title": "Python Developer (Híbrido - Madrid)",
+      "company": "Hays",
+      "location": "Madrid, Community of Madrid, Spain",
+      "url": "https://www.linkedin.com/jobs/view/4463481841",
+      "description": "",
+      "salary": null,
+      "requirements": {
+        "skills": [],
+        "experience_years": 0.0,
+        "education": null
+      },
+      "posted_date": null,
+      "is_remote": false,
+      "job_type": "fulltime"
+    },
+    "scores": {
+      "skills": 1.0,
+      "experience": 1.0,
+      "education": 1.0,
+      "semantic": 0.0,
+      "total": 0.8
+    },
+    "classification": "bueno",
+    "matched_skills": [
+      "Java",
+      "GitHub Actions",
+      "Go",
+      "Redis",
+      "Agile",
+      "JavaScript",
+      "SQL",
+      "Docker",
+      "HTML",
+      "MongoDB",
+      "Django",
+      "GitHub",
+      "CSS",
+      "FastAPI",
+      "Python",
+      "PostgreSQL",
+      "AWS",
+      "Git",
+      "React",
+      "R",
+      "MySQL",
+      "Kubernetes",
+      "Linux",
+      "Scrum"
+    ],
+    "missing_skills": [],
+    "recommendations": [
+      "Excelente compatibilidad con la oferta"
+    ]
+  },
+  {
+    "match_id": "3ac976e6-967f-4f38-ad0e-a6227079c4b7",
+    "job": {
+      "job_id": "6a9027c9-a8a1-49a4-8896-2fae535ff27b",
+      "source": "linkedin",
+      "scraped_at": "2026-09-15 04:52:35.801841+00:00",
+      "title": "Senior Python Developer",
+      "company": "GFT Technologies España",
+      "location": "Madrid, Community of Madrid, Spain",
+      "url": "https://www.linkedin.com/jobs/view/4465623807",
+      "description": "",
+      "salary": null,
+      "requirements": {
+        "skills": [],
+        "experience_years": 0.0,
         "education": null
       },
       "posted_date": null,

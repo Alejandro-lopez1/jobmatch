@@ -46,6 +46,7 @@ def search(
     location: str = typer.Option("", "--location", "-l", help="Ubicación"),
     results: int = typer.Option(20, "--results", "-n", help="Número de resultados"),
     cv_path: str = typer.Option(None, "--cv", "-c", help="Ruta al CV (PDF/DOCX)"),
+    job_type: str = typer.Option(None, "--type", "-t", help="Tipo: remoto, hibrido, presencial"),
 ):
     """Buscar empleos y calcular match con tu CV"""
     cv_file = Path(cv_path) if cv_path else DATA_DIR / "current_cv.json"
@@ -54,13 +55,14 @@ def search(
         typer.echo("❌ No hay CV cargado. Usa: jobmatch cv upload <archivo>", err=True)
         raise typer.Exit(1)
 
-    typer.echo(f"\n🔍 Buscando: '{query}' en '{location or 'todas las ubicaciones'}'...\n")
+    type_str = f" ({job_type})" if job_type else ""
+    typer.echo(f"\n🔍 Buscando: '{query}' en '{location or 'todas las ubicaciones'}'{type_str}...\n")
 
     from backend.models.schemas import ParsedCV
     cv_data = json.loads(cv_file.read_text(encoding="utf-8"))
     cv = ParsedCV(**cv_data)
 
-    jobs = _scraper.search_all(query, location, results)
+    jobs = _scraper.search_all(query, location, results, job_type)
     typer.echo(f"   📥 {len(jobs)} ofertas encontradas")
 
     if not jobs:

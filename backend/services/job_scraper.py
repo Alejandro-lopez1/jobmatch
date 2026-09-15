@@ -16,6 +16,7 @@ class JobSearchService:
         location: str = "",
         results_wanted: int = 20,
         country: str = "USA",
+        job_type: str = None,
     ) -> list[Job]:
         try:
             kwargs = {
@@ -26,6 +27,16 @@ class JobSearchService:
             }
             if location:
                 kwargs["location"] = location
+
+            if job_type:
+                jt = job_type.lower()
+                if jt == "remoto":
+                    kwargs["is_remote"] = True
+                elif jt == "hibrido":
+                    kwargs["job_type"] = "fulltime"
+                elif jt == "presencial":
+                    kwargs["job_type"] = "fulltime"
+                    kwargs["is_remote"] = False
 
             df = scrape_jobs(**kwargs)
             if df is None or df.empty:
@@ -177,6 +188,7 @@ class JobSearchService:
         query: str,
         location: str = "",
         results_wanted: int = 20,
+        job_type: str = None,
     ) -> list[Job]:
         cached = get_cached_jobs(query, location)
         if cached:
@@ -185,7 +197,7 @@ class JobSearchService:
             return [Job(**j) for j in cached]
 
         all_jobs = []
-        all_jobs.extend(self.search_jobspy(query, location, results_wanted))
+        all_jobs.extend(self.search_jobspy(query, location, results_wanted, job_type=job_type))
         all_jobs.extend(self.search_adzuna(query, location, results_wanted))
         all_jobs.extend(self.search_jsearch(query, location, results_wanted))
 
