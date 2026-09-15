@@ -1,0 +1,38 @@
+sequenceDiagram
+    actor User
+    participant CLI
+    participant API
+    participant CVParser
+    participant JobScraper
+    participant Matcher
+    participant Sheets
+
+    User->>CLI: jobmatch search "Python developer" Madrid
+    CLI->>API: POST /cv/upload (CV file)
+    API->>CVParser: parse_resume(file)
+    CVParser-->>API: ParsedCV
+    API-->>CLI: CV parseado ✓
+
+    CLI->>API: GET /jobs/search?q=Python+developer&loc=Madrid
+    API->>JobScraper: search_all(query, location)
+    
+    par Múltiples fuentes
+        JobScraper->>JobScraper: search_jobspy()
+        JobScraper->>JobScraper: search_adzuna()
+        JobScraper->>JobScraper: search_jsearch()
+    end
+    
+    JobScraper-->>API: List[Job]
+    
+    API->>Matcher: calculate_match(cv, jobs)
+    Matcher-->>API: List[MatchResult]
+    API-->>CLI: Resultados con scores
+
+    CLI-->>User: Top 10 resultados mostrados
+
+    User->>CLI: jobmatch export --to-sheets
+    CLI->>API: POST /sheets/export(results)
+    API->>Sheets: append_results(sheet, results)
+    Sheets-->>API: URL hoja
+    API-->>CLI: Exportado ✓
+    CLI-->>User: https://docs.google.com/sheets/...

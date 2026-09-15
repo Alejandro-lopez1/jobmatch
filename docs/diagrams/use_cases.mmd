@@ -1,0 +1,32 @@
+graph TB
+    subgraph "Sistema JobMatch"
+        UC1[UC-01: Subir CV]
+        UC2[UC-02: Buscar Empleos]
+        UC3[UC-03: Calcular Match]
+        UC4[UC-04: Exportar a Sheets]
+        UC5[UC-05: Ver Historial]
+        UC6[UC-06: Configurar Búsqueda]
+    end
+
+    subgraph "Actores"
+        U[Usuario]
+        S[Servidor Google Sheets]
+        JS[JobSpy]
+        AD[Adzuna API]
+        JS2[JSearch API]
+    end
+
+    U --> UC1
+    U --> UC2
+    U --> UC4
+    U --> UC5
+    U --> UC6
+
+    UC1 --> UC3
+    UC2 --> UC3
+    UC3 --> UC4
+
+    UC2 --> JS
+    UC2 --> AD
+    UC2 --> JS2
+    UC4 --> S

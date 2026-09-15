@@ -1,0 +1,17 @@
+stateDiagram-v2
+    [*] --> Idle
+    Idle --> UploadingCV : Subir CV
+    UploadingCV --> ParsingCV : Archivo recibido
+    ParsingCV --> CVReady : Parseo exitoso
+    ParsingCV --> Error : Parseo fallido
+    Error --> Idle : Corregir
+    CVReady --> Searching : Buscar empleos
+    Searching --> ResultsReady : Búsqueda completa
+    ResultsReady --> Matching : Calcular match
+    Matching --> MatchReady : Match calculado
+    MatchReady --> Exporting : Exportar a Sheets
+    Exporting --> Exported : Exportación exitosa
+    Exporting --> ExportError : Error exportación
+    ExportError --> ResultsReady : Reintentar
+    Exported --> Idle : Completado
+    MatchReady --> Idle : Nueva búsqueda

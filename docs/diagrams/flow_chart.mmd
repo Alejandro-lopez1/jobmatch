@@ -1,0 +1,27 @@
+flowchart TD
+    A[Usuario sube CV] --> B{Formato valido?}
+    B -->|No| C[Error: Formato no soportado]
+    B -->|Si| D[Extraer texto]
+    D --> E{Texto extraido?}
+    E -->|No| F[Error: Archivo corrupto]
+    E -->|Si| G[Ejecutar NER spaCy]
+    G --> H[Extraer skills]
+    H --> I[Extraer educacion]
+    I --> J[Extraer experiencia]
+    J --> K[Normalizar datos]
+    K --> L[Retornar PerfilCV JSON]
+    
+    L --> M[Buscar ofertas]
+    M --> N[JobSpy - Indeed, LinkedIn]
+    M --> O[Adzuna API]
+    M --> P[JSearch API]
+    N --> Q[Deduplicar resultados]
+    O --> Q
+    P --> Q
+    Q --> R[Calcular match scores]
+    R --> S[Clasificar Bueno/Regular/No Match]
+    S --> T[Mostrar resultados]
+    T --> U{Exportar?}
+    U -->|Si Sheets| V[Google Sheets]
+    U -->|Si CSV| W[Archivo local]
+    U -->|No| X[Fin]
