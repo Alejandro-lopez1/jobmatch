@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JobMatch - Buscador de Empleo Inteligente</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .score-bueno { color: #22c55e; }
+        .score-regular { color: #eab308; }
+        .score-no_match { color: #ef4444; }
+        .bar-fill { transition: width 0.5s ease; }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-5xl">
+        <header class="mb-8">
+            <h1 class="text-3xl font-bold text-white">🔧 JobMatch</h1>
+            <p class="text-gray-400 mt-1">Buscador de empleo con matching inteligente</p>
+        </header>
+
+        <section id="cv-section" class="bg-gray-800 rounded-lg p-6 mb-6">
+            <h2 class="text-xl font-semibold mb-4">📄 Mi CV</h2>
+            <div id="cv-status" class="text-gray-400">No hay CV cargado</div>
+            <div class="mt-4 flex gap-3">
+                <label class="cursor-pointer bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition">
+                    Subir CV
+                    <input type="file" id="cv-input" accept=".pdf,.docx,.txt" class="hidden">
+                </label>
+            </div>
+            <div id="cv-info" class="mt-4 hidden">
+                <p><strong>Nombre:</strong> <span id="cv-name"></span></p>
+                <p><strong>Skills:</strong> <span id="cv-skills" class="text-blue-400"></span></p>
+                <p><strong>Experiencia:</strong> <span id="cv-exp"></span></p>
+            </div>
+        </section>
+
+        <section id="search-section" class="bg-gray-800 rounded-lg p-6 mb-6">
+            <h2 class="text-xl font-semibold mb-4">🔍 Buscar Empleos</h2>
+            <div class="flex flex-col sm:flex-row gap-3">
+                <input id="search-query" type="text" placeholder="Ej: Python developer"
+                    class="flex-1 bg-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <input id="search-location" type="text" placeholder="Ubicación (opcional)"
+                    class="flex-1 bg-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <button onclick="doSearch()" id="search-btn"
+                    class="bg-green-600 hover:bg-green-700 px-6 py-2 rounded-lg font-semibold transition">
+                    Buscar
+                </button>
+            </div>
+        </section>
+
+        <section id="results-section" class="hidden">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-semibold">📊 Resultados</h2>
+                <div class="flex gap-2">
+                    <button onclick="exportCSV()" class="bg-gray-700 hover:bg-gray-600 px-3 py-1 rounded text-sm">CSV</button>
+                    <button onclick="exportSheets()" class="bg-green-700 hover:bg-green-600 px-3 py-1 rounded text-sm">Sheets</button>
+                </div>
+            </div>
+            <div id="results-count" class="text-gray-400 mb-4"></div>
+            <div id="results-list" class="space-y-3"></div>
+        </section>
+
+        <div id="loading" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div class="bg-gray-800 rounded-lg p-6 text-center">
+                <div class="animate-spin w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full mx-auto mb-3"></div>
+                <p>Buscando empleos...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API = '';
+        let currentResults = [];
+
+        document.getElementById('cv-input').addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const form = new FormData();
+            form.append('file', file);
+
+            try {
+                const res = await fetch(`${API}/cv/upload`, { method: 'POST', body: form });
+                if (!res.ok) throw new Error(await res.text());
+                const cv = await res.json();
+                showCV(cv);
+            } catch (err) {
+                alert('Error: ' + err.message);
+            }
+        });
+
+        function showCV(cv) {
+            document.getElementById('cv-status').textContent = '✅ CV cargado';
+            document.getElementById('cv-name').textContent = cv.personal_info?.name || 'N/A';
+            document.getElementById('cv-skills').textContent = cv.skills?.technical?.join(', ') || 'N/A';
+            document.getElementById('cv-exp').textContent = (cv.experience?.total_years || 0) + ' años';
+            document.getElementById('cv-info').classList.remove('hidden');
+        }
+
+        async function doSearch() {
+            const query = document.getElementById('search-query').value.trim();
+            if (!query) return alert('Ingresa una palabra clave');
+
+            const location = document.getElementById('search-location').value.trim();
+            document.getElementById('loading').classList.remove('hidden');
+            document.getElementById('search-btn').disabled = true;
+
+            try {
+                const res = await fetch(`${API}/jobs/search`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ query, location, results_wanted: 20 })
+                });
+                if (!res.ok) throw new Error(await res.text());
+                const results = await res.json();
+                showResults(results);
+            } catch (err) {
+                alert('Error: ' + err.message);
+            } finally {
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('search-btn').disabled = false;
+            }
+        }
+
+        function showResults(results) {
+            currentResults = results;
+            document.getElementById('results-section').classList.remove('hidden');
+            document.getElementById('results-count').textContent = `${results.length} resultados`;
+            const list = document.getElementById('results-list');
+            list.innerHTML = '';
+
+            results.forEach((r, i) => {
+                const job = r.job;
+                const score = (r.scores?.total || 0) * 100;
+                const cls = r.classification || 'no_match';
+                const colorClass = `score-${cls}`;
+
+                list.innerHTML += `
+                    <div class="bg-gray-800 rounded-lg p-4 border-l-4 ${cls === 'bueno' ? 'border-green-500' : cls === 'regular' ? 'border-yellow-500' : 'border-red-500'}">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="font-semibold text-lg">${job.title}</h3>
+                                <p class="text-gray-400">${job.company} | ${job.location}</p>
+                                ${job.salary ? `<p class="text-green-400 text-sm">$${job.salary.min?.toLocaleString() || '?'} - $${job.salary.max?.toLocaleString() || '?'}</p>` : ''}
+                            </div>
+                            <div class="text-right">
+                                <span class="text-2xl font-bold ${colorClass}">${score.toFixed(1)}%</span>
+                                <p class="text-xs ${colorClass}">${cls.toUpperCase()}</p>
+                            </div>
+                        </div>
+                        <div class="mt-2 w-full bg-gray-700 rounded-full h-2">
+                            <div class="bar-fill h-2 rounded-full ${cls === 'bueno' ? 'bg-green-500' : cls === 'regular' ? 'bg-yellow-500' : 'bg-red-500'}" style="width: ${score}%"></div>
+                        </div>
+                        <div class="mt-3 flex gap-2 flex-wrap">
+                            ${(r.matched_skills || []).map(s => `<span class="bg-green-900 text-green-300 px-2 py-0.5 rounded text-xs">✓ ${s}</span>`).join('')}
+                            ${(r.missing_skills || []).map(s => `<span class="bg-red-900 text-red-300 px-2 py-0.5 rounded text-xs">✗ ${s}</span>`).join('')}
+                        </div>
+                        <div class="mt-3 flex gap-2">
+                            ${job.url ? `<a href="${job.url}" target="_blank" class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-sm">Ver oferta</a>` : ''}
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function exportCSV() {
+            if (!currentResults.length) return;
+            let csv = 'Fecha,Empresa,Puesto,Match%,Clasificación,Skills Faltantes,URL,Fuente\n';
+            const now = new Date().toISOString().split('T')[0];
+            currentResults.forEach(r => {
+                const job = r.job;
+                csv += `${now},"${job.company}","${job.title}",${(r.scores?.total*100).toFixed(1)}%,${r.classification},"${(r.missing_skills||[]).join('; ')}","${job.url}","${job.source}"\n`;
+            });
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'jobmatch_results.csv';
+            a.click();
+        }
+
+        async function exportSheets() {
+            if (!currentResults.length) return alert('No hay resultados para exportar');
+            try {
+                const res = await fetch(`${API}/sheets/export`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ results: currentResults })
+                });
+                const data = await res.json();
+                if (data.url) window.open(data.url, '_blank');
+                else alert('Exportado correctamente');
+            } catch (err) {
+                alert('Error: ' + err.message);
+            }
+        }
+    </script>
+</body>
+</html>

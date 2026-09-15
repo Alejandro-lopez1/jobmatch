@@ -1,0 +1,39 @@
+{
+  "programming_languages": [
+    "Python", "JavaScript", "TypeScript", "Java", "C++", "C#", "Go", "Rust",
+    "PHP", "Ruby", "Swift", "Kotlin", "Scala", "R", "MATLAB", "Perl",
+    "SQL", "HTML", "CSS", "Bash", "PowerShell"
+  ],
+  "frameworks_libraries": [
+    "React", "Angular", "Vue.js", "Node.js", "Express", "Django", "Flask",
+    "FastAPI", "Spring", "Spring Boot", "Laravel", "Ruby on Rails",
+    "ASP.NET", "jQuery", "Bootstrap", "Tailwind CSS", "Next.js",
+    "Nuxt.js", "Svelte", "Flutter", "React Native"
+  ],
+  "databases": [
+    "MySQL", "PostgreSQL", "MongoDB", "Redis", "Elasticsearch",
+    "SQLite", "Oracle", "SQL Server", "DynamoDB", "Cassandra",
+    "Neo4j", "Firebase", "Supabase"
+  ],
+  "cloud_devops": [
+    "AWS", "Azure", "GCP", "Google Cloud", "Docker", "Kubernetes",
+    "Jenkins", "GitLab CI", "GitHub Actions", "Terraform", "Ansible",
+    "Nginx", "Apache", "Linux", "CI/CD", "Prometheus", "Grafana"
+  ],
+  "data_science": [
+    "Machine Learning", "Deep Learning", "NLP", "TensorFlow", "PyTorch",
+    "Scikit-learn", "Pandas", "NumPy", "Matplotlib", "Seaborn",
+    "Jupyter", "Spark", "Hadoop", "Data Engineering", "ETL",
+    "Computer Vision", "Neural Networks", "LLM", "GPT"
+  ],
+  "soft_skills": [
+    "Leadership", "Communication", "Problem Solving", "Team Work",
+    "Critical Thinking", "Creativity", "Adaptability", "Time Management",
+    "Project Management", "Agile", "Scrum", "Kanban"
+  ],
+  "tools": [
+    "Git", "GitHub", "GitLab", "Jira", "Confluence", "Slack",
+    "VS Code", "IntelliJ", "Postman", "Docker Desktop", "Figma",
+    "Trello", "Notion", "Jenkins"
+  ]
+}
