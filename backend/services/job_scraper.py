@@ -6,6 +6,7 @@ from jobspy import scrape_jobs
 
 from backend.models.schemas import Job, JobSalary, JobRequirements
 from backend.config import ADZUNA_APP_ID, ADZUNA_APP_KEY, JSEARCH_API_KEY
+from backend.services.cache_service import get_cached_jobs, cache_job
 
 
 class JobSearchService:
@@ -177,12 +178,22 @@ class JobSearchService:
         location: str = "",
         results_wanted: int = 20,
     ) -> list[Job]:
+        cached = get_cached_jobs(query, location)
+        if cached:
+            print(f"[Cache] {len(cached)} empleos desde cache")
+            from backend.models.schemas import Job
+            return [Job(**j) for j in cached]
+
         all_jobs = []
         all_jobs.extend(self.search_jobspy(query, location, results_wanted))
         all_jobs.extend(self.search_adzuna(query, location, results_wanted))
         all_jobs.extend(self.search_jsearch(query, location, results_wanted))
 
         unique_jobs = self._deduplicate(all_jobs)
+
+        for job in unique_jobs:
+            cache_job(job.job_id, job.source, query, location, job.dict())
+
         return unique_jobs
 
     def _deduplicate(self, jobs: list[Job]) -> list[Job]:

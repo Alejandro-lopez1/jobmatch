@@ -10,69 +10,240 @@
         .score-regular { color: #eab308; }
         .score-no_match { color: #ef4444; }
         .bar-fill { transition: width 0.5s ease; }
+        .page { display: none; }
+        .page.active { display: block; }
+        .nav-link { transition: all 0.2s; }
+        .nav-link:hover, .nav-link.active { color: #3b82f6; }
+        .skill-tag { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 9999px; font-size: 0.75rem; margin: 0.125rem; }
+        .skill-matched { background: #064e3b; color: #a7f3d0; }
+        .skill-missing { background: #7f1d1d; color: #fca5a5; }
     </style>
 </head>
 <body class="bg-gray-900 text-gray-100 min-h-screen">
-    <div class="container mx-auto px-4 py-8 max-w-5xl">
-        <header class="mb-8">
-            <h1 class="text-3xl font-bold text-white">🔧 JobMatch</h1>
-            <p class="text-gray-400 mt-1">Buscador de empleo con matching inteligente</p>
-        </header>
+    <nav class="bg-gray-800 border-b border-gray-700 sticky top-0 z-50">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between h-16">
+                <a href="#" class="text-xl font-bold text-white" data-page="cv">🔧 JobMatch</a>
+                <div class="hidden md:flex gap-6">
+                    <a href="#" class="nav-link text-gray-300" data-page="cv">📄 Mi CV</a>
+                    <a href="#" class="nav-link text-gray-300" data-page="search">🔍 Buscar</a>
+                    <a href="#" class="nav-link text-gray-300" data-page="results">📊 Resultados</a>
+                    <a href="#" class="nav-link text-gray-300" data-page="settings">⚙️ Config</a>
+                </div>
+                <button id="mobile-menu-btn" class="md:hidden text-gray-300">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                </button>
+            </div>
+            <div id="mobile-menu" class="md:hidden hidden py-4 border-t border-gray-700">
+                <a href="#" class="nav-link block py-2 text-gray-300" data-page="cv">📄 Mi CV</a>
+                <a href="#" class="nav-link block py-2 text-gray-300" data-page="search">🔍 Buscar</a>
+                <a href="#" class="nav-link block py-2 text-gray-300" data-page="results">📊 Resultados</a>
+                <a href="#" class="nav-link block py-2 text-gray-300" data-page="settings">⚙️ Config</a>
+            </div>
+        </div>
+    </nav>
 
-        <section id="cv-section" class="bg-gray-800 rounded-lg p-6 mb-6">
-            <h2 class="text-xl font-semibold mb-4">📄 Mi CV</h2>
-            <div id="cv-status" class="text-gray-400">No hay CV cargado</div>
-            <div class="mt-4 flex gap-3">
+    <main class="container mx-auto px-4 py-8 max-w-5xl">
+        <!-- PAGE: Mi CV -->
+        <section id="page-cv" class="page active">
+            <div class="flex justify-between items-center mb-6">
+                <h1 class="text-2xl font-bold">📄 Mi CV</h1>
                 <label class="cursor-pointer bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition">
                     Subir CV
                     <input type="file" id="cv-input" accept=".pdf,.docx,.txt" class="hidden">
                 </label>
             </div>
-            <div id="cv-info" class="mt-4 hidden">
-                <p><strong>Nombre:</strong> <span id="cv-name"></span></p>
-                <p><strong>Skills:</strong> <span id="cv-skills" class="text-blue-400"></span></p>
-                <p><strong>Experiencia:</strong> <span id="cv-exp"></span></p>
-            </div>
-        </section>
 
-        <section id="search-section" class="bg-gray-800 rounded-lg p-6 mb-6">
-            <h2 class="text-xl font-semibold mb-4">🔍 Buscar Empleos</h2>
-            <div class="flex flex-col sm:flex-row gap-3">
-                <input id="search-query" type="text" placeholder="Ej: Python developer"
-                    class="flex-1 bg-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <input id="search-location" type="text" placeholder="Ubicación (opcional)"
-                    class="flex-1 bg-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <button onclick="doSearch()" id="search-btn"
-                    class="bg-green-600 hover:bg-green-700 px-6 py-2 rounded-lg font-semibold transition">
-                    Buscar
-                </button>
+            <div id="cv-empty" class="bg-gray-800 rounded-lg p-8 text-center">
+                <p class="text-gray-400 mb-4">No hay CV cargado</p>
+                <p class="text-sm text-gray-500">Sube tu CV (PDF, DOCX o TXT) para empezar</p>
             </div>
-        </section>
 
-        <section id="results-section" class="hidden">
-            <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl font-semibold">📊 Resultados</h2>
-                <div class="flex gap-2">
-                    <button onclick="exportCSV()" class="bg-gray-700 hover:bg-gray-600 px-3 py-1 rounded text-sm">CSV</button>
-                    <button onclick="exportSheets()" class="bg-green-700 hover:bg-green-600 px-3 py-1 rounded text-sm">Sheets</button>
+            <div id="cv-info" class="hidden">
+                <div class="grid md:grid-cols-3 gap-6 mb-6">
+                    <div class="bg-gray-800 rounded-lg p-6">
+                        <h3 class="font-semibold mb-3">👤 Personal</h3>
+                        <p><strong>Nombre:</strong> <span id="cv-name">-</span></p>
+                        <p><strong>Email:</strong> <span id="cv-email">-</span></p>
+                        <p><strong>Teléfono:</strong> <span id="cv-phone">-</span></p>
+                        <p><strong>Ubicación:</strong> <span id="cv-location">-</span></p>
+                    </div>
+                    <div class="bg-gray-800 rounded-lg p-6">
+                        <h3 class="font-semibold mb-3">💼 Experiencia</h3>
+                        <p class="text-3xl font-bold" id="cv-exp">- años</p>
+                    </div>
+                    <div class="bg-gray-800 rounded-lg p-6">
+                        <h3 class="font-semibold mb-3">🎓 Educación</h3>
+                        <div id="cv-education">-</div>
+                    </div>
+                </div>
+
+                <div class="bg-gray-800 rounded-lg p-6">
+                    <h3 class="font-semibold mb-3">🛠️ Habilidades Técnicas</h3>
+                    <div id="cv-skills" class="flex flex-wrap"></div>
                 </div>
             </div>
-            <div id="results-count" class="text-gray-400 mb-4"></div>
-            <div id="results-list" class="space-y-3"></div>
         </section>
 
-        <div id="loading" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div class="bg-gray-800 rounded-lg p-6 text-center">
-                <div class="animate-spin w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full mx-auto mb-3"></div>
-                <p>Buscando empleos...</p>
+        <!-- PAGE: Buscar -->
+        <section id="page-search" class="page">
+            <h1 class="text-2xl font-bold mb-6">🔍 Buscar Empleos</h1>
+
+            <div class="bg-gray-800 rounded-lg p-6 mb-6">
+                <div class="flex flex-col sm:flex-row gap-3 mb-4">
+                    <input id="search-query" type="text" placeholder="Ej: Python developer, Data scientist..."
+                        class="flex-1 bg-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <input id="search-location" type="text" placeholder="Ubicación (Madrid, Remoto...)"
+                        class="flex-1 bg-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <label class="cursor-pointer flex items-center gap-2">
+                        <input type="checkbox" id="filter-remote" class="rounded border-gray-600">
+                        <span>Remoto</span>
+                    </label>
+                    <label class="cursor-pointer flex items-center gap-2">
+                        <input type="checkbox" id="filter-hybrid" class="rounded border-gray-600">
+                        <span>Híbrido</span>
+                    </label>
+                    <label class="cursor-pointer flex items-center gap-2">
+                        <input type="checkbox" id="filter-onsite" class="rounded border-gray-600">
+                        <span>Presencial</span>
+                    </label>
+                </div>
+                <button onclick="doSearch()" id="search-btn"
+                    class="bg-green-600 hover:bg-green-700 px-6 py-2 rounded-lg font-semibold transition">
+                    Buscar Empleos
+                </button>
             </div>
+
+            <div id="search-status" class="text-gray-400 text-sm hidden"></div>
+        </section>
+
+        <!-- PAGE: Resultados -->
+        <section id="page-results" class="page">
+            <div class="flex justify-between items-center mb-4">
+                <h1 class="text-2xl font-bold">📊 Resultados</h1>
+                <div class="flex gap-2">
+                    <button onclick="exportCSV()" class="bg-gray-700 hover:bg-gray-600 px-3 py-1 rounded text-sm">📥 CSV</button>
+                    <button onclick="exportSheets()" class="bg-green-700 hover:bg-green-600 px-3 py-1 rounded text-sm">📊 Sheets</button>
+                </div>
+            </div>
+
+            <div class="flex gap-2 mb-4 flex-wrap">
+                <button onclick="filterResults('all')" id="filter-all" class="filter-btn active px-3 py-1 rounded text-sm">Todos</button>
+                <button onclick="filterResults('bueno')" id="filter-bueno" class="filter-btn px-3 py-1 rounded text-sm score-bueno">🟢 Bueno</button>
+                <button onclick="filterResults('regular')" id="filter-regular" class="filter-btn px-3 py-1 rounded text-sm score-regular">🟡 Regular</button>
+                <button onclick="filterResults('no_match')" id="filter-no_match" class="filter-btn px-3 py-1 rounded text-sm score-no_match">🔴 No Match</button>
+            </div>
+
+            <div id="results-count" class="text-gray-400 mb-4"></div>
+            <div id="results-list" class="space-y-3"></div>
+
+            <div id="pagination" class="flex justify-center gap-2 mt-6"></div>
+        </section>
+
+        <!-- PAGE: Configuración -->
+        <section id="page-settings" class="page">
+            <h1 class="text-2xl font-bold mb-6">⚙️ Configuración</h1>
+
+            <div class="bg-gray-800 rounded-lg p-6 mb-6">
+                <h2 class="font-semibold mb-4">🔑 API Keys</h2>
+                <div class="grid gap-4 md:grid-cols-2">
+                    <div>
+                        <label class="block text-sm text-gray-400 mb-1">Adzuna App ID</label>
+                        <input type="text" id="adzuna-app-id" class="w-full bg-gray-700 rounded-lg px-4 py-2" placeholder="app_id">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-400 mb-1">Adzuna App Key</label>
+                        <input type="password" id="adzuna-app-key" class="w-full bg-gray-700 rounded-lg px-4 py-2" placeholder="app_key">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-400 mb-1">JSearch RapidAPI Key</label>
+                        <input type="password" id="jsearch-key" class="w-full bg-gray-700 rounded-lg px-4 py-2" placeholder="api_key">
+                    </div>
+                </div>
+                <button onclick="saveSettings()" class="mt-4 bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded">Guardar</button>
+            </div>
+
+            <div class="bg-gray-800 rounded-lg p-6 mb-6">
+                <h2 class="font-semibold mb-4">📊 Google Sheets</h2>
+                <div class="flex flex-col sm:flex-row gap-3 mb-4">
+                    <input type="text" id="sheet-name" class="flex-1 bg-gray-700 rounded-lg px-4 py-2" placeholder="Nombre de la hoja (ej: JobMatch Results)">
+                    <button onclick="testSheets()" class="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded">Probar conexión</button>
+                </div>
+                <p id="sheets-status" class="text-sm text-gray-400"></p>
+            </div>
+
+            <div class="bg-gray-800 rounded-lg p-6">
+                <h2 class="font-semibold mb-4">⚖️ Pesos de Matching</h2>
+                <div class="space-y-4">
+                    <div>
+                        <label class="flex justify-between mb-1">Skills: <span id="w-skills">40%</span></label>
+                        <input type="range" id="weight-skills" min="20" max="60" value="40" class="w-full accent-green-500">
+                    </div>
+                    <div>
+                        <label class="flex justify-between mb-1">Experiencia: <span id="w-exp">25%</span></label>
+                        <input type="range" id="weight-exp" min="10" max="40" value="25" class="w-full accent-yellow-500">
+                    </div>
+                    <div>
+                        <label class="flex justify-between mb-1">Educación: <span id="w-edu">15%</span></label>
+                        <input type="range" id="weight-edu" min="5" max="25" value="15" class="w-full accent-blue-500">
+                    </div>
+                    <div>
+                        <label class="flex justify-between mb-1">Semántico: <span id="w-sem">20%</span></label>
+                        <input type="range" id="weight-sem" min="10" max="30" value="20" class="w-full accent-purple-500">
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="loading" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-gray-800 rounded-lg p-6 text-center">
+            <div class="animate-spin w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full mx-auto mb-3"></div>
+            <p id="loading-text">Cargando...</p>
         </div>
     </div>
 
     <script>
         const API = '';
         let currentResults = [];
+        let currentFilter = 'all';
+        let currentPage = 1;
+        const PER_PAGE = 10;
 
+        // Navigation
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            document.getElementById('page-' + pageId).classList.add('active');
+            document.querySelectorAll('[data-page="' + pageId + '"]').forEach(l => l.classList.add('active'));
+            document.getElementById('mobile-menu').classList.add('hidden');
+            window.location.hash = pageId;
+        }
+
+        document.querySelectorAll('[data-page]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                showPage(link.dataset.page);
+            });
+        });
+
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+
+        // Hash routing
+        window.addEventListener('hashchange', () => {
+            const page = window.location.hash.slice(1) || 'cv';
+            showPage(page);
+        });
+
+        // Initial page from hash
+        const initialPage = window.location.hash.slice(1) || 'cv';
+        showPage(initialPage);
+
+        // CV Upload
         document.getElementById('cv-input').addEventListener('change', async (e) => {
             const file = e.target.files[0];
             if (!file) return;
@@ -80,92 +251,195 @@
             const form = new FormData();
             form.append('file', file);
 
+            showLoading('Subiendo CV...');
             try {
                 const res = await fetch(`${API}/cv/upload`, { method: 'POST', body: form });
                 if (!res.ok) throw new Error(await res.text());
                 const cv = await res.json();
                 showCV(cv);
+                showPage('cv');
             } catch (err) {
                 alert('Error: ' + err.message);
+            } finally {
+                hideLoading();
             }
         });
 
         function showCV(cv) {
-            document.getElementById('cv-status').textContent = '✅ CV cargado';
-            document.getElementById('cv-name').textContent = cv.personal_info?.name || 'N/A';
-            document.getElementById('cv-skills').textContent = cv.skills?.technical?.join(', ') || 'N/A';
-            document.getElementById('cv-exp').textContent = (cv.experience?.total_years || 0) + ' años';
+            document.getElementById('cv-empty').classList.add('hidden');
             document.getElementById('cv-info').classList.remove('hidden');
+            document.getElementById('cv-name').textContent = cv.personal_info?.name || 'N/A';
+            document.getElementById('cv-email').textContent = cv.personal_info?.email || 'N/A';
+            document.getElementById('cv-phone').textContent = cv.personal_info?.phone || 'N/A';
+            document.getElementById('cv-location').textContent = cv.personal_info?.location || 'N/A';
+            document.getElementById('cv-exp').textContent = (cv.experience?.total_years || 0) + ' años';
+
+            const edu = cv.education || [];
+            document.getElementById('cv-education').innerHTML = edu.map(e =>
+                `<p>${e.degree || ''} @ ${e.institution || ''} ${e.year ? '(' + e.year + ')' : ''}</p>`
+            ).join('');
+
+            const skills = cv.skills?.technical || [];
+            document.getElementById('cv-skills').innerHTML = skills.map(s =>
+                `<span class="skill-tag bg-blue-900 text-blue-200">${s}</span>`
+            ).join('');
         }
 
+        // Search
         async function doSearch() {
             const query = document.getElementById('search-query').value.trim();
             if (!query) return alert('Ingresa una palabra clave');
 
             const location = document.getElementById('search-location').value.trim();
-            document.getElementById('loading').classList.remove('hidden');
+            const remote = document.getElementById('filter-remote').checked;
+            const hybrid = document.getElementById('filter-hybrid').checked;
+            const onsite = document.getElementById('filter-onsite').checked;
+
+            const jobType = [];
+            if (remote) jobType.push('remote');
+            if (hybrid) jobType.push('hybrid');
+            if (onsite) jobType.push('onsite');
+
+            showLoading('Buscando empleos...');
+            document.getElementById('search-status').textContent = '';
             document.getElementById('search-btn').disabled = true;
 
             try {
+                const body = { query, location, results_wanted: 20 };
+                if (jobType.length) body.job_type = jobType[0];
+
                 const res = await fetch(`${API}/jobs/search`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ query, location, results_wanted: 20 })
+                    body: JSON.stringify(body)
                 });
                 if (!res.ok) throw new Error(await res.text());
                 const results = await res.json();
+                currentResults = results;
+                currentPage = 1;
                 showResults(results);
+                document.getElementById('search-status').textContent = `${results.length} resultados encontrados`;
+                document.getElementById('search-status').classList.remove('hidden');
+                showPage('results');
             } catch (err) {
                 alert('Error: ' + err.message);
+                document.getElementById('search-status').textContent = 'Error: ' + err.message;
             } finally {
-                document.getElementById('loading').classList.add('hidden');
+                hideLoading();
                 document.getElementById('search-btn').disabled = false;
             }
         }
 
+        function filterResults(filter) {
+            currentFilter = filter;
+            currentPage = 1;
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('filter-' + filter).classList.add('active');
+            renderResults();
+        }
+
         function showResults(results) {
             currentResults = results;
-            document.getElementById('results-section').classList.remove('hidden');
-            document.getElementById('results-count').textContent = `${results.length} resultados`;
+            currentPage = 1;
+            renderResults();
+        }
+
+        function renderResults() {
+            let filtered = currentResults;
+            if (currentFilter !== 'all') {
+                filtered = currentResults.filter(r => r.classification === currentFilter);
+            }
+
+            document.getElementById('results-count').textContent = `${filtered.length} de ${currentResults.length} resultados`;
+
+            const start = (currentPage - 1) * PER_PAGE;
+            const pageResults = filtered.slice(start, start + PER_PAGE);
             const list = document.getElementById('results-list');
             list.innerHTML = '';
 
-            results.forEach((r, i) => {
-                const job = r.job;
-                const score = (r.scores?.total || 0) * 100;
-                const cls = r.classification || 'no_match';
-                const colorClass = `score-${cls}`;
+            if (pageResults.length === 0) {
+                list.innerHTML = '<p class="text-gray-400 text-center py-8">No hay resultados para este filtro</p>';
+            } else {
+                pageResults.forEach((r, i) => {
+                    const job = r.job;
+                    const score = (r.scores?.total || 0) * 100;
+                    const cls = r.classification || 'no_match';
+                    const colorClass = `score-${cls}`;
 
-                list.innerHTML += `
-                    <div class="bg-gray-800 rounded-lg p-4 border-l-4 ${cls === 'bueno' ? 'border-green-500' : cls === 'regular' ? 'border-yellow-500' : 'border-red-500'}">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <h3 class="font-semibold text-lg">${job.title}</h3>
-                                <p class="text-gray-400">${job.company} | ${job.location}</p>
-                                ${job.salary ? `<p class="text-green-400 text-sm">$${job.salary.min?.toLocaleString() || '?'} - $${job.salary.max?.toLocaleString() || '?'}</p>` : ''}
+                    list.innerHTML += `
+                        <div class="bg-gray-800 rounded-lg p-4 border-l-4 ${cls === 'bueno' ? 'border-green-500' : cls === 'regular' ? 'border-yellow-500' : 'border-red-500'}">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h3 class="font-semibold text-lg">${job.title}</h3>
+                                    <p class="text-gray-400">${job.company} | ${job.location}</p>
+                                    ${job.salary ? `<p class="text-green-400 text-sm">$${job.salary.min?.toLocaleString() || '?'} - $${job.salary.max?.toLocaleString() || '?'}</p>` : ''}
+                                </div>
+                                <div class="text-right">
+                                    <span class="text-2xl font-bold ${colorClass}">${score.toFixed(1)}%</span>
+                                    <p class="text-xs ${colorClass}">${cls.toUpperCase()}</p>
+                                </div>
                             </div>
-                            <div class="text-right">
-                                <span class="text-2xl font-bold ${colorClass}">${score.toFixed(1)}%</span>
-                                <p class="text-xs ${colorClass}">${cls.toUpperCase()}</p>
+                            <div class="mt-2 w-full bg-gray-700 rounded-full h-2">
+                                <div class="bar-fill h-2 rounded-full ${cls === 'bueno' ? 'bg-green-500' : cls === 'regular' ? 'bg-yellow-500' : 'bg-red-500'}" style="width: ${score}%"></div>
+                            </div>
+                            <div class="mt-3 flex gap-2 flex-wrap">
+                                ${(r.matched_skills || []).map(s => `<span class="skill-tag skill-matched">✓ ${s}</span>`).join('')}
+                                ${(r.missing_skills || []).map(s => `<span class="skill-tag skill-missing">✗ ${s}</span>`).join('')}
+                            </div>
+                            <div class="mt-3 flex gap-2">
+                                ${job.url ? `<a href="${job.url}" target="_blank" class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-sm">Ver oferta</a>` : ''}
+                                <button onclick="showJobDetail(${currentResults.indexOf(r)})" class="bg-gray-700 hover:bg-gray-600 px-3 py-1 rounded text-sm">Detalle</button>
                             </div>
                         </div>
-                        <div class="mt-2 w-full bg-gray-700 rounded-full h-2">
-                            <div class="bar-fill h-2 rounded-full ${cls === 'bueno' ? 'bg-green-500' : cls === 'regular' ? 'bg-yellow-500' : 'bg-red-500'}" style="width: ${score}%"></div>
-                        </div>
-                        <div class="mt-3 flex gap-2 flex-wrap">
-                            ${(r.matched_skills || []).map(s => `<span class="bg-green-900 text-green-300 px-2 py-0.5 rounded text-xs">✓ ${s}</span>`).join('')}
-                            ${(r.missing_skills || []).map(s => `<span class="bg-red-900 text-red-300 px-2 py-0.5 rounded text-xs">✗ ${s}</span>`).join('')}
-                        </div>
-                        <div class="mt-3 flex gap-2">
-                            ${job.url ? `<a href="${job.url}" target="_blank" class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-sm">Ver oferta</a>` : ''}
-                        </div>
-                    </div>
-                `;
-            });
+                    `;
+                });
+            }
+            renderPagination(filtered.length);
         }
 
+        function renderPagination(total) {
+            const pages = Math.ceil(total / PER_PAGE);
+            const pagination = document.getElementById('pagination');
+            pagination.innerHTML = '';
+            if (pages <= 1) return;
+
+            for (let i = 1; i <= pages; i++) {
+                if (i === 1 || i === pages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+                    pagination.innerHTML += `<button onclick="goToPage(${i})" class="px-3 py-1 rounded ${i === currentPage ? 'bg-blue-600' : 'bg-gray-700 hover:bg-gray-600'}">${i}</button>`;
+                } else if (i === currentPage - 2 || i === currentPage + 2) {
+                    pagination.innerHTML += '<span class="px-2 text-gray-500">...</span>';
+                }
+            }
+        }
+
+        function goToPage(page) {
+            currentPage = page;
+            renderResults();
+        }
+
+        function showJobDetail(index) {
+            const r = currentResults[index];
+            const job = r.job;
+            const score = (r.scores?.total || 0) * 100;
+
+            alert(`
+${job.title} @ ${job.company}
+Match: ${score.toFixed(1)}% (${r.classification.toUpperCase()})
+
+Skills coincidentes: ${r.matched_skills?.join(', ') || 'N/A'}
+Skills faltantes: ${r.missing_skills?.join(', ') || 'N/A'}
+
+Ubicación: ${job.location}
+Tipo: ${job.job_type}
+${job.salary ? 'Salario: $' + job.salary.min?.toLocaleString() + ' - $' + job.salary.max?.toLocaleString() : ''}
+
+${job.url ? 'URL: ' + job.url : ''}
+            `);
+        }
+
+        // Export
         function exportCSV() {
-            if (!currentResults.length) return;
+            if (!currentResults.length) return alert('No hay resultados');
             let csv = 'Fecha,Empresa,Puesto,Match%,Clasificación,Skills Faltantes,URL,Fuente\n';
             const now = new Date().toISOString().split('T')[0];
             currentResults.forEach(r => {
@@ -181,6 +455,7 @@
 
         async function exportSheets() {
             if (!currentResults.length) return alert('No hay resultados para exportar');
+            showLoading('Exportando a Google Sheets...');
             try {
                 const res = await fetch(`${API}/sheets/export`, {
                     method: 'POST',
@@ -192,8 +467,70 @@
                 else alert('Exportado correctamente');
             } catch (err) {
                 alert('Error: ' + err.message);
+            } finally {
+                hideLoading();
             }
         }
+
+        // Settings
+        function saveSettings() {
+            const settings = {
+                adzuna_app_id: document.getElementById('adzuna-app-id').value,
+                adzuna_app_key: document.getElementById('adzuna-app-key').value,
+                jsearch_key: document.getElementById('jsearch-key').value,
+            };
+            localStorage.setItem('jobmatch_settings', JSON.stringify(settings));
+            alert('Configuración guardada (localStorage). Reinicia el servidor para usar las API keys.');
+        }
+
+        function loadSettings() {
+            const s = localStorage.getItem('jobmatch_settings');
+            if (s) {
+                const settings = JSON.parse(s);
+                document.getElementById('adzuna-app-id').value = settings.adzuna_app_id || '';
+                document.getElementById('adzuna-app-key').value = settings.adzuna_app_key || '';
+                document.getElementById('jsearch-key').value = settings.jsearch_key || '';
+            }
+        }
+
+        async function testSheets() {
+            const name = document.getElementById('sheet-name').value || 'JobMatch Results';
+            showLoading('Probando conexión...');
+            try {
+                const res = await fetch(`${API}/sheets/status`, { method: 'GET' });
+                const data = await res.json();
+                document.getElementById('sheets-status').textContent = data.connected ? '✅ Conectado' : '❌ No conectado (verifica service_account.json)';
+                document.getElementById('sheets-status').className = data.connected ? 'text-green-400' : 'text-red-400';
+            } catch (err) {
+                document.getElementById('sheets-status').textContent = '❌ Error: ' + err.message;
+                document.getElementById('sheets-status').className = 'text-red-400';
+            } finally {
+                hideLoading();
+            }
+        }
+
+        // Weight sliders
+        ['skills', 'exp', 'edu', 'sem'].forEach(key => {
+            const slider = document.getElementById('weight-' + key);
+            const label = document.getElementById('w-' + key);
+            if (slider) {
+                slider.addEventListener('input', () => {
+                    label.textContent = slider.value + '%';
+                });
+            }
+        });
+
+        function showLoading(text = 'Cargando...') {
+            document.getElementById('loading-text').textContent = text;
+            document.getElementById('loading').classList.remove('hidden');
+        }
+
+        function hideLoading() {
+            document.getElementById('loading').classList.add('hidden');
+        }
+
+        // Load CV on start if exists
+        loadSettings();
     </script>
 </body>
 </html>
